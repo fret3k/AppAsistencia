@@ -5,9 +5,9 @@ services:
     region: ohio
     plan: free
 
-    buildCommand: |
-      cd frontend && npm ci && npm run build && cd ../backend && npm ci && npm run build
-
+    # Render usa el build script del package.json raíz
+    # que instala y compila frontend y backend
+    buildCommand: npm run build
     startCommand: node backend/dist/server.js
 
     envVars:
@@ -16,25 +16,25 @@ services:
 
       # ─── Base de datos (Supabase PostgreSQL) ───────────────────────
       - key: DATABASE_URL
-        sync: false   # Configurar manualmente en el dashboard de Render
+        sync: false
 
       - key: DIRECT_URL
         sync: false
 
       # ─── Supabase Storage ──────────────────────────────────────────
       - key: SUPABASE_URL
-        sync: false   # Configurar manualmente en el dashboard de Render
+        sync: false
 
       - key: SUPABASE_SERVICE_ROLE_KEY
-        sync: false   # ⚠️ Secreto — nunca commitearlo
+        sync: false
 
       # ─── JWT ───────────────────────────────────────────────────────
       - key: JWT_SECRET
-        generateValue: true   # Render genera un valor aleatorio seguro
+        generateValue: true
 
       - key: JWT_EXPIRES_IN
         value: 8h
 
-      # ─── Puerto (Render lo asigna automáticamente) ─────────────────
+      # ─── Puerto ────────────────────────────────────────────────────
       - key: PORT
         value: 10000
