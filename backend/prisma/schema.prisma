@@ -1,0 +1,133 @@
+// Prisma schema para el Sistema de Control de Asistencia
+// Modela las mismas tablas que el proyecto PHP original:
+// docentes, users, clases_dictadas, justificaciones, notificaciones, settings.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model Docente {
+  id            Int      @id @default(autoincrement())
+  nombres       String   @db.VarChar(120)
+  apellidos     String   @db.VarChar(120)
+  dni           String   @unique @db.VarChar(15)
+  correo        String?  @db.VarChar(150)
+  telefono      String?  @db.VarChar(30)
+  especialidad  String?  @db.VarChar(160)
+  createdAt     DateTime @default(now()) @map("created_at")
+  updatedAt     DateTime @updatedAt      @map("updated_at")
+
+  clases         ClaseDictada[]
+  justificaciones Justificacion[]
+  user           User?
+
+  @@map("docentes")
+}
+
+model User {
+  id          Int      @id @default(autoincrement())
+  email       String   @unique @db.VarChar(150)
+  password    String   @db.VarChar(255)
+  isAdmin     Boolean  @default(false) @map("is_admin")
+  role        String   @default("admin") @db.VarChar(20)
+  docenteId   Int?     @unique @map("docente_id")
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt      @map("updated_at")
+
+  docente     Docente? @relation(fields: [docenteId], references: [id], onDelete: SetNull)
+
+  @@map("users")
+}
+
+model ClaseDictada {
+  id                      Int      @id @default(autoincrement())
+  docenteId               Int      @map("docente_id")
+  asignatura              String   @db.VarChar(180)
+  tema                    String?  @db.VarChar(220)
+  fecha                   DateTime @db.Date
+  horaInicio              String   @map("hora_inicio") @db.VarChar(8)
+  horaTermino             String   @map("hora_termino") @db.VarChar(8)
+  aula                    String   @db.VarChar(40)
+  numeroHoras             Int      @map("numero_horas")
+  firma                   String?  @db.VarChar(160)
+  firmaTermino            String?  @map("firma_termino") @db.VarChar(160)
+  observaciones           String?  @db.Text
+
+  justificacionDni        String?  @map("justificacion_dni") @db.VarChar(15)
+  justificacionNombres    String?  @map("justificacion_nombres") @db.VarChar(120)
+  justificacionApellidos  String?  @map("justificacion_apellidos") @db.VarChar(120)
+  justificacionTelefono   String?  @map("justificacion_telefono") @db.VarChar(30)
+  justificacionMotivo     String?  @map("justificacion_motivo") @db.Text
+  justificacionClase      String?  @map("justificacion_clase") @db.VarChar(180)
+  justificacionAula       String?  @map("justificacion_aula") @db.VarChar(40)
+  justificacionArchivoPath String? @map("justificacion_archivo_path") @db.VarChar(255)
+  justificacionArchivoNombre String? @map("justificacion_archivo_nombre") @db.VarChar(180)
+  justificacionArchivoTipo String?  @map("justificacion_archivo_tipo") @db.VarChar(120)
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt      @map("updated_at")
+
+  docente Docente @relation(fields: [docenteId], references: [id], onDelete: Cascade)
+
+  notificaciones Notificacion[]
+
+  @@index([docenteId, fecha])
+  @@map("clases_dictadas")
+}
+
+model Justificacion {
+  id                  Int      @id @default(autoincrement())
+  docenteId           Int?     @map("docente_id")
+  dni                 String   @db.VarChar(15)
+  nombres             String   @db.VarChar(120)
+  apellidos           String   @db.VarChar(120)
+  telefono            String   @db.VarChar(30)
+  tipo                String   @default("permiso") @db.VarChar(20)
+  motivo              String   @db.Text
+  claseADictar        String   @map("clase_a_dictar") @db.VarChar(180)
+  aula                String   @db.VarChar(40)
+  fechaJustificacion  DateTime @map("fecha_justificacion") @db.Date
+  archivoPath         String?  @map("archivo_path") @db.VarChar(255)
+  archivoNombre       String?  @map("archivo_nombre") @db.VarChar(180)
+  archivoTipo         String?  @map("archivo_tipo") @db.VarChar(120)
+  createdAt           DateTime @default(now()) @map("created_at")
+  updatedAt           DateTime @updatedAt      @map("updated_at")
+
+  docente        Docente?      @relation(fields: [docenteId], references: [id], onDelete: SetNull)
+  notificaciones Notificacion[]
+
+  @@index([fechaJustificacion])
+  @@map("justificaciones")
+}
+
+model Notificacion {
+  id               Int      @id @default(autoincrement())
+  tipo             String   @default("justificacion") @db.VarChar(50)
+  titulo           String   @db.VarChar(255)
+  mensaje          String   @db.Text
+  claseId          Int?     @map("clase_id")
+  justificacionId  Int?     @map("justificacion_id")
+  leida            Boolean  @default(false)
+  createdAt        DateTime @default(now()) @map("created_at")
+
+  clase         ClaseDictada? @relation(fields: [claseId], references: [id], onDelete: SetNull)
+  justificacion Justificacion? @relation(fields: [justificacionId], references: [id], onDelete: SetNull)
+
+  @@index([leida])
+  @@index([createdAt])
+  @@map("notificaciones")
+}
+
+model Setting {
+  key       String   @id @db.VarChar(80)
+  value     String   @db.Text
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("settings")
+}

@@ -1,0 +1,315 @@
+/* Estilos personalizados (migrados del layout PHP) */
+:root {
+  --cpu-navy: #211b78;
+  --cpu-blue: #045fd6;
+  --cpu-cyan: #12d9ef;
+  --cpu-ink: #111827;
+  --cpu-soft: #f4f7fb;
+  --admin-sidebar-width: 260px;
+}
+
+body {
+  background: var(--cpu-soft);
+  color: var(--cpu-ink);
+}
+
+.brand-image {
+  width: 78px;
+  height: 78px;
+  object-fit: contain;
+  border-radius: 4px;
+  display: block;
+}
+.hero-logo {
+  width: 136px;
+  height: 136px;
+  object-fit: cover;
+  border-radius: 8px;
+  box-shadow: 0 16px 34px rgba(0, 0, 0, 0.2);
+}
+.main-menu {
+  background: var(--cpu-navy);
+}
+.main-menu .nav-link {
+  color: #ffffff;
+  font-size: 1.15rem;
+  padding: 1.55rem 1rem;
+  font-weight: 500;
+}
+.main-menu .nav-link.active,
+.main-menu .nav-link:hover {
+  color: var(--cpu-cyan);
+}
+.main-menu .admin-login-link {
+  color: rgba(255, 255, 255, 0.72);
+  font-weight: 600;
+}
+.hero-band {
+  background: linear-gradient(90deg, #065cae 0%, #0bb5d4 100%);
+  color: #ffffff;
+  min-height: 250px;
+  display: flex;
+  align-items: center;
+}
+.hero-shell {
+  width: min(100% - 3rem, 1600px);
+  margin: 0 auto;
+}
+.hero-band h1 {
+  font-weight: 900;
+  letter-spacing: 0;
+  line-height: 1.16;
+}
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  border-radius: 8px;
+  background: rgba(18, 217, 239, 0.92);
+  color: #061627;
+  padding: 14px 18px;
+  font-size: 1.05rem;
+  font-weight: 800;
+}
+
+.page-card {
+  border: 0;
+  border-radius: 8px;
+  box-shadow: 0 18px 45px rgba(15, 23, 42, 0.09);
+}
+.section-title {
+  font-size: 0.78rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--cpu-blue);
+}
+.form-control,
+.form-select {
+  min-height: 46px;
+  border-color: #dbe3ef;
+}
+.form-control:focus,
+.form-select:focus {
+  border-color: var(--cpu-blue);
+  box-shadow: 0 0 0 0.2rem rgba(4, 95, 214, 0.14);
+}
+.input-group-text {
+  background: #f8fafc;
+  border-color: #dbe3ef;
+  color: var(--cpu-navy);
+}
+
+.btn-primary {
+  --bs-btn-bg: var(--cpu-navy);
+  --bs-btn-border-color: var(--cpu-navy);
+  --bs-btn-hover-bg: #17135f;
+  --bs-btn-hover-border-color: #17135f;
+}
+.btn-info {
+  --bs-btn-bg: var(--cpu-cyan);
+  --bs-btn-border-color: var(--cpu-cyan);
+  --bs-btn-color: #061627;
+  --bs-btn-hover-bg: #0bbfd3;
+  --bs-btn-hover-border-color: #0bbfd3;
+  --bs-btn-hover-color: #061627;
+}
+
+.stat {
+  border-left: 4px solid var(--cpu-cyan);
+  background: #ffffff;
+  border-radius: 8px;
+}
+
+.report-table {
+  border: 1px solid #1f2937;
+}
+.report-table th,
+.report-table td {
+  border: 1px solid #1f2937;
+  vertical-align: middle;
+}
+.report-table thead th {
+  background: #eef6ff;
+  color: #111827;
+  text-transform: uppercase;
+  font-size: 0.78rem;
+  text-align: center;
+}
+.report-table .total-row td {
+  background: #f8fafc;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+/* Admin/Docente layout */
+.admin-layout {
+  display: flex;
+  min-height: 100vh;
+}
+.admin-sidebar {
+  width: var(--admin-sidebar-width);
+  background: var(--cpu-navy);
+  color: white;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  transition: all 0.3s;
+  position: fixed;
+  height: 100vh;
+  z-index: 1030;
+}
+.admin-sidebar-header {
+  padding: 1.5rem;
+  background: rgba(0, 0, 0, 0.1);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+.admin-sidebar-nav {
+  flex-grow: 1;
+  padding: 1rem 0;
+  overflow-y: auto;
+}
+.admin-sidebar .nav-link {
+  color: rgba(255, 255, 255, 0.7);
+  padding: 0.8rem 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  transition: all 0.2s;
+  border-left: 3px solid transparent;
+  font-size: 0.95rem;
+  text-decoration: none;
+}
+.admin-sidebar .nav-link:hover,
+.admin-sidebar .nav-link.active {
+  color: white;
+  background: rgba(18, 217, 239, 0.1);
+  border-left-color: var(--cpu-cyan);
+}
+.admin-main {
+  flex-grow: 1;
+  margin-left: var(--admin-sidebar-width);
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background: var(--cpu-soft);
+}
+.admin-topbar {
+  background: white;
+  padding: 1rem 1.5rem;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  z-index: 1020;
+  position: sticky;
+  top: 0;
+}
+.admin-content {
+  padding: 2rem;
+  flex-grow: 1;
+}
+
+.notif-bell {
+  position: relative;
+  cursor: pointer;
+  font-size: 1.25rem;
+  color: #6b7280;
+  transition: color 0.2s;
+}
+.notif-bell:hover {
+  color: var(--cpu-blue);
+}
+.notif-badge {
+  position: absolute;
+  top: -6px;
+  right: -8px;
+  min-width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #ef4444;
+  color: #fff;
+  font-size: 0.65rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  padding: 0 4px;
+  animation: notifPulse 2s ease-in-out infinite;
+}
+@keyframes notifPulse {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.15);
+  }
+}
+.notif-dropdown {
+  width: 380px;
+  max-height: 420px;
+  overflow-y: auto;
+  border: 0;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
+  border-radius: 12px;
+  padding: 0;
+}
+.notif-dropdown .notif-header {
+  padding: 14px 16px;
+  border-bottom: 1px solid #e5e7eb;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #f9fafb;
+  border-radius: 12px 12px 0 0;
+}
+.notif-dropdown .notif-item {
+  padding: 12px 16px;
+  border-bottom: 1px solid #f3f4f6;
+  transition: background 0.15s;
+  cursor: pointer;
+}
+.notif-dropdown .notif-item:hover {
+  background: #f0f7ff;
+}
+.notif-dropdown .notif-item:last-child {
+  border-bottom: 0;
+}
+.notif-dropdown .notif-empty {
+  padding: 30px 16px;
+  text-align: center;
+  color: #9ca3af;
+}
+
+.docente-sidebar {
+  background: linear-gradient(180deg, #065f46, #0e7490) !important;
+}
+.docente-sidebar .nav-link:hover,
+.docente-sidebar .nav-link.active {
+  background: rgba(255, 255, 255, 0.1);
+  border-left-color: #34d399;
+}
+.docente-topbar {
+  border-bottom: 3px solid #059669;
+}
+
+@media (max-width: 991px) {
+  .main-menu .nav-link {
+    padding: 0.75rem 0;
+  }
+  .hero-logo {
+    width: 96px;
+    height: 96px;
+  }
+  .hero-band {
+    min-height: 230px;
+  }
+  .admin-sidebar {
+    transform: translateX(-100%);
+  }
+  .admin-main {
+    margin-left: 0;
+  }
+}

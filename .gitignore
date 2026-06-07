@@ -1,0 +1,37 @@
+# Dependencias
+node_modules/
+backend/node_modules/
+frontend/node_modules/
+
+# Builds compilados
+backend/dist/
+frontend/dist/
+
+# Variables de entorno — NUNCA subir al repo
+backend/.env
+frontend/.env.local
+frontend/.env.production.local
+
+# Archivos de uploads (efímeros en producción)
+backend/uploads/
+
+# Logs
+*.log
+backend/backend-dev.*.log
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+
+# Next.js (carpeta de otro proyecto que está abierta en el editor)
+.next/
+
+# Prisma migrations lock (se puede subir, pero no es crítico)
+# backend/prisma/migrations/
+
+# ZIP backups
+*.zip
