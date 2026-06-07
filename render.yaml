@@ -2,10 +2,9 @@ services:
   - type: web
     name: formulario-asistencia
     runtime: node
-    region: ohio  # Cambiar a oregon o frankfurt si prefieres
+    region: ohio
     plan: free
 
-    # Render ejecuta estos comandos desde la raíz del repo
     buildCommand: |
       cd frontend && npm ci && npm run build && cd ../backend && npm ci && npm run build
 
@@ -17,10 +16,17 @@ services:
 
       # ─── Base de datos (Supabase PostgreSQL) ───────────────────────
       - key: DATABASE_URL
-        sync: false   # Se configura manualmente en el dashboard de Render
+        sync: false   # Configurar manualmente en el dashboard de Render
 
       - key: DIRECT_URL
         sync: false
+
+      # ─── Supabase Storage ──────────────────────────────────────────
+      - key: SUPABASE_URL
+        sync: false   # Configurar manualmente en el dashboard de Render
+
+      - key: SUPABASE_SERVICE_ROLE_KEY
+        sync: false   # ⚠️ Secreto — nunca commitearlo
 
       # ─── JWT ───────────────────────────────────────────────────────
       - key: JWT_SECRET
@@ -28,10 +34,6 @@ services:
 
       - key: JWT_EXPIRES_IN
         value: 8h
-
-      # ─── Uploads ───────────────────────────────────────────────────
-      - key: UPLOAD_DIR
-        value: uploads
 
       # ─── Puerto (Render lo asigna automáticamente) ─────────────────
       - key: PORT

@@ -6,7 +6,6 @@ import path from 'path';
 import fs from 'fs';
 import { errorHandler, notFoundHandler } from './middlewares/error';
 import routes from './routes';
-import { UPLOADS_ROOT } from './middlewares/upload';
 
 const app = express();
 const PORT = Number(process.env.PORT) || 4000;
@@ -23,8 +22,7 @@ app.use(express.json({ limit: '2mb' }));
 app.use(express.urlencoded({ extended: true }));
 app.use(morgan(NODE_ENV === 'production' ? 'combined' : 'dev'));
 
-// Archivos subidos (justificaciones, etc.)
-app.use('/uploads', express.static(UPLOADS_ROOT));
+// Los archivos de justificaciones se almacenan en Supabase Storage (no hay carpeta local).
 
 // Health check y rutas de la API
 app.get('/api/health', (_req, res) => res.json({ ok: true, ts: new Date().toISOString() }));
@@ -57,5 +55,5 @@ app.use(errorHandler);
 app.listen(PORT, () => {
   console.log(`Servidor corriendo en http://localhost:${PORT}`);
   console.log(`Modo: ${NODE_ENV}`);
-  console.log(`Uploads en: ${path.resolve(UPLOADS_ROOT)}`);
+  console.log('Storage: Supabase Storage (justificaciones)');
 });
